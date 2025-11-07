@@ -15,6 +15,7 @@ class UserController extends Controller
 
       return view('users.users-list', ['users' => $users]);
    }
+
    public function delete($id)
    {
 

@@ -12,7 +12,7 @@ class CheckAdmin
         $user = auth()->user();
 
         // Vérifie que l’utilisateur est connecté et qu’il a le rôle ROLE_ADMIN
-        if (!$user || $user->role !== 'ROLE_ADMIN') {
+        if (!$user || !in_array('ROLE_ADMIN', $user->roles ?? [])) {
             return response()->json([
                 'success' => false,
                 'message' => 'Accès refusé : vous devez être administrateur.'

@@ -1,4 +1,8 @@
-<h2>Discussion avec {{ $user->username }}</h2>
+@extends('layouts.app')
+
+@section('content')
+
+<h1>Discussion avec {{ $user->username }}</h1>
 <div class="chat-container">
     @foreach($messages as $msg)
     <div class="message-wrapper {{ $msg->from_admin ? 'admin' : 'user' }}">
@@ -70,3 +74,4 @@
         opacity: 0.6;
     }
 </style>
+@endsection

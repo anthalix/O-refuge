@@ -28,27 +28,19 @@ Route::get('/verify', [FrontuserController::class, 'verify'])->name('frontuser.v
 
 
 
-
-
 Route::get('/animaux', [AnimalController::class, 'list'])->name('animaux.list');
-Route::middleware(['auth'])->group(function () {
+
+
+Route::middleware(['auth', 'admin'])->group(function () {
+
     Route::get('/messages', [MessageAdminController::class, 'index'])->name('admin.messages.index');
     Route::get('/messages/{userId}', [MessageAdminController::class, 'show'])->name('admin.messages.show');
     Route::post('/messages/reply', [MessageAdminController::class, 'reply'])->name('admin.messages.reply');
-
     Route::get('/animaux/add', [AnimalController::class, 'showAddForm'])->name('animaux.add');
-
     Route::post('/animaux/add', [AnimalController::class, 'add'])->name('animaux.add');
-
     Route::put('/animaux/update/{id}', [AnimalController::class, 'update'])->name('animaux.update');
-
     Route::get('/animaux/edit/{id}', [AnimalController::class, 'edit'])->name('animaux.edit');
-
     Route::delete('/animaux/{id}', [AnimalController::class, 'delete'])->name('animaux.delete');
-
-
-
     Route::get('/users-list', [UserController::class, 'list'])->name('users.list');
-
     Route::delete('/users/{id}', [UserController::class, 'delete'])->name('users.delete');
 });

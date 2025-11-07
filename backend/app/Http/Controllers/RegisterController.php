@@ -36,6 +36,8 @@ class RegisterController extends Controller
       'email' => $request->email,
       'password' => Hash::make($request->password),
       'is_verified' => 0,
+      'roles' => ['ROLE_USER']
+
     ]);
 
     return view('login');

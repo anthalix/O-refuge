@@ -1,84 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <title>Users List</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+@section('content')
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function toggleNavbar() {
-            var navbar = document.getElementById("navbarNav");
-            navbar.classList.toggle("show");
-        }
-    </script>
+<h1>Liste des Utilisateurs :</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>nom</th>
+            <th>email</th>
+            <th>rôles</th>
+            <th>action</th>
 
 
-
-</head>
-
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <h1 class="site">O'refuge</h1>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse"
-                    style="margin:auto 50px;"
-                    id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link  fs-5" aria-current="page" href="/animaux">Liste animaux</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  fs-5" aria-current="page" href="/forms">Contacts</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fs-5" aria-current="page" href="/logout">Déconnexion</a>
-                        </li>
-                        <li class="nav-item_auth ">
-                            <div class="nav-link_auth fs-5">Connecté en tant que {{ auth()->user()->email }}</div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <h1>Liste des Utilisateurs :</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>nom</th>
-                <th>email</th>
-                <th>action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($users as $user)
+        <tr>
+            <td><strong>{{ $user->username }}</strong></td>
+            <td>{{ $user->email }}</td>
+            <td>
+                @foreach (json_decode($user->roles) as $role)
+                <span class="badge bg-primary">{{ $role }}</span>
+                @endforeach
+            </td>
 
 
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($users as $user)
-            <tr>
-                <td><strong>{{ $user->username }}</strong></td>
-                <td>{{ $user->email }}</td>
+            <td>
+                <form action="{{route('users.delete', ['id' =>$user->id])}}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
+
+    </tbody>
+</table>
 
 
-                <td>
-                    <form action="{{route('users.delete', ['id' =>$user->id])}}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Supprimer</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-
-    </body1>
-
-</html>
+@endsection
