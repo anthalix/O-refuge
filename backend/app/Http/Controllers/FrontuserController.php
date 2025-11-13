@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\FrontUser;
-use App\Mail\VerifyFrontUserMail;
 use App\Models\Message;
+use App\Models\FrontUser;
+use App\Events\NewMessage;
+use Illuminate\Http\Request;
+use App\Mail\VerifyFrontUserMail;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class FrontuserController extends Controller
 {
@@ -85,14 +86,14 @@ class FrontuserController extends Controller
         $frontUser->roles = json_encode(['ROLE_FRONT']);
         $frontUser->save();
 
-        $sanctumToken = $frontUser->createToken('auth_token')->plainTextToken;
+
 
 
         // Redirection vers le front
-        $backendPort = request()->getPort() ?? 8000;
+        $backendPort = $request->getPort() ?? 8000;
         $frontPort = $backendPort == 8000 ? 5173 : 5174;
 
-        return redirect("http://localhost:{$frontPort}/#/verified?user_id={$frontUser->id}&token={$sanctumToken}");
+        return redirect("http://localhost:{$frontPort}/#/verified?user_id={$frontUser->id}");
     }
     public function show($id)
     {
@@ -143,6 +144,7 @@ class FrontuserController extends Controller
 
             // ✅ Liaison avec la table de jointure
             $user->messages()->attach($message->id);
+            event(new NewMessage($message, $user));
 
             // ✅ Réponse propre
             return response()->json([

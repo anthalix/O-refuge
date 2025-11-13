@@ -14,48 +14,26 @@ class StatusController extends Controller
     public function list()
     {
         // récupérer toutes les tâches en BDD
-        $breedInfo = DB::table('animals')
-            ->join('animals_breeds', 'animals_breeds.animals_id', '=', 'animals.id')
-            ->join('breeds', 'animals_breeds.breeds_id', '=', 'breeds.id')
-            ->select('animals.*', 'breeds.name AS breed_name')
-
+        $adopt = DB::table('animals')
             ->where('status', 'Adopté')
-            ->get();
+            ->get()
+            ->map(function ($adopt) {
+                // 🔹 On récupère la première image associée à cet animal
+                $firstImage = DB::table('animal_images')
+                    ->where('animal_id', $adopt->id)
+                    ->orderBy('order')
+                    ->first();
+                if ($firstImage) {
+                    $adopt->thumbnail = asset('assets/' . $firstImage->filename);
+                } else {
+                    // 🔹 Sinon → image par défaut
+                    $adopt->thumbnail = asset('assets/default.jpg');
+                }
 
-        return response()->json($breedInfo);
-        // retourner cette liste d'animaux déjà adoptés au format JSON
-        //* Laravel, quand il voit qu'on retourne un tableau dans une méthode de contrôleur va comprendre qu'on cherche à faire une API, et va automatiquement convertir le tableau en JSON.
-    }
-
-    public function adoptAnimal($id)
-    {
-        // Trouver l'animal par son ID
-        $animal = Animal::find($id);
-
-        if ($animal) {
-            // Mettre à jour le statut de l'animal
-            $animal->status = 'Adopté';
-            $animal->save();
-        }
-    }
+                return $adopt;
+            });
 
 
-    public function show($id)
-    {
-        // Utilisation du Query Builder pour récupérer l'animal avec le filtre 'status' égal à 'adopted'
-        $animal = DB::table('animals')
-            ->where('id', $id)
-            ->where('specie_id', 1) // Assurez-vous que vous avez toujours besoin de ce filtre
-            ->where('status', 'Adopté')
-            ->first();
-
-        // si l'animal n'a pas été trouvé, $animal sera null
-        if (is_null($animal)) {
-            // le chien n'a pas été trouvé ou n'est pas 'adopted', on renvoie une 404
-            return Response("Aucun animal n'a été trouvé ou n'est pas 'Adopté'", 404);
-        }
-
-        // Retour automatique au format JSON
-        return $animal;
+        return response()->json($adopt);
     }
 }

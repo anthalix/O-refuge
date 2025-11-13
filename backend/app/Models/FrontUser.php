@@ -5,10 +5,11 @@ namespace App\Models;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 class FrontUser extends Model
 {
-    use HasApiTokens, HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
     public $timestamps = false;
     protected $table = 'frontUser';
     protected $fillable = [

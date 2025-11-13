@@ -1,10 +1,15 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
   import { API_URL } from "./api";
 
-  let user = {};
+  import { echo } from "./echo.js";
+
+  let messages: { content: string; from: string; from_admin?: boolean }[] = [];
+  let user: { id?: number; username?: string; email?: string } = {};
+
+  // Déclare à TypeScript que window.Pusher existe
+
   let message = "";
-  let messages = [];
 
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("user_id");
@@ -20,9 +25,9 @@
     });
     const data = await res.json();
     if (data.success) {
-      user = data.data;
-      data.username = user.username; // prérempli
-      data.email = user.email; // prérempli
+      if (data.success) {
+        user = data.data;
+      }
     }
 
     const msgRes = await fetch(`${API_URL}/messages/${userId}`, {
@@ -57,6 +62,24 @@
       alert("Erreur : " + data.message);
     }
   }
+  onMount(() => {
+    // Écoute les nouveaux messages envoyés par l’admin
+    echo.private(`user-${userId}`).listen(".new.message", (e: any) => {
+      console.log("📩 Message reçu :", e);
+      messages = [...messages, { content: e.message.content, from: "Admin" }];
+    });
+    echo.channel("admin-channel").listen(".nex.message", (e: any) => {
+      console.log("📩 Message reçu :", e);
+    });
+  });
+
+  $: {
+    const chatBox = document.querySelector(".chat-box");
+    if (chatBox) {
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  }
+  console.log(echo);
 </script>
 
 <main>

@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+
+
+Broadcast::channel('admin-channel', function ($user) {
+    // Optionnel : autorise uniquement les admins à écouter ce canal
+    return $user;
+});
+Broadcast::channel('private-user-{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\FrontUser;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use App\Events\NewMessage;
+
 
 class MessageAdminController extends Controller
 {
@@ -40,10 +42,13 @@ class MessageAdminController extends Controller
 
     public function reply(Request $request)
     {
+
         $request->validate([
             'content' => 'required|string',
             'user_id' => 'required|integer|exists:frontUser,id',
         ]);
+        $user = FrontUser::findOrFail($request->user_id);
+
 
         $message = Message::create([
             'content' => $request->content,
@@ -51,6 +56,8 @@ class MessageAdminController extends Controller
         ]);
 
         $message->users()->attach($request->user_id);
+
+        event(new NewMessage($message, $user));
 
         return redirect()->route('admin.messages.show', $request->user_id)
             ->with('success', 'Message envoyé');

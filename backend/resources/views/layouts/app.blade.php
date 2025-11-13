@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
+
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,9 +16,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    @vite(['resources/js/echo.js'])
+
 </head>
 
 <body>
+
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
@@ -123,10 +128,21 @@
             justify-content: center;
             background: rgba(0, 0, 0, 0.4);
             z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .access-denied.hidden {
             display: none;
+        }
+
+        .access-denied.fade-in {
+            display: flex;
+            opacity: 1;
+        }
+
+        .access-denied.fade-out {
+            opacity: 0;
         }
 
         .access-box {
@@ -137,7 +153,8 @@
             box-shadow: 2px 2px 10px 1px #f9faf9;
 
             width: min(90%, 400px);
-            animation: fadeIn 0.5s ease-out;
+            transform: translateY(-10px);
+            animation: slideIn 0.4s ease-out forwards;
         }
 
         .access-box h2 {
@@ -152,7 +169,7 @@
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translateY(-15px);
             }
 
             to {

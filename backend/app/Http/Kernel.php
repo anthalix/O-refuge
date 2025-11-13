@@ -34,14 +34,17 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            // Throttle API requests
             \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
+            // Bind route parameters
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
     protected $middlewareAliases = [
         'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth:sanctum' => \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        'auth:api' => \App\Http\Middleware\Authenticate::class, // <- important pour tokens Bearer
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

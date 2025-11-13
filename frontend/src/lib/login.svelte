@@ -20,6 +20,7 @@
     console.log(data);
     if (data.token) {
       localStorage.setItem("token", data.token);
+      localStorage.setItem("broadcast_token", data.broadcast_token);
       localStorage.setItem("user_id", data.user.id);
       push("/contact");
     } else {

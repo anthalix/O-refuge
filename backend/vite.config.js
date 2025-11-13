@@ -7,13 +7,17 @@ export default defineConfig({
     plugins: [
         // 👇 Plugin Laravel habituel
         laravel({
-            input: ["resources/js/app.js"], // ton point d'entrée Laravel
+            input: [
+                "resources/js/app.js",
+                "resources/js/echo.js",
+                "resources/css/app.css",
+            ], // ton point d'entrée Laravel
             refresh: true,
         }),
 
         // 👇 Plugin Svelte
         svelte({
-            configFile: "frontend/svelte.config.js", // on indique le chemin du fichier de config
+            configFile: "../frontend/svelte.config.js", // on indique le chemin du fichier de config
             compilerOptions: {
                 dev: true,
             },

@@ -20,7 +20,7 @@
             <td><strong>{{ $user->username }}</strong></td>
             <td>{{ $user->email }}</td>
             <td>
-                @foreach (json_decode($user->roles) as $role)
+                @foreach ($user->roles as $role)
                 <span class="badge bg-primary">{{ $role }}</span>
                 @endforeach
             </td>

@@ -724,9 +724,8 @@ img {
   padding: 5px 25px;
 }
 .presentation_page-contact {
-  margin-right: auto;
-  margin-left: auto;
   color: #e8f0fa;
+  margin-left: 5.5%;
   width: 45%;
   height: max-content;
   padding-left: 50px;
