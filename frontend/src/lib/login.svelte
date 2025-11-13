@@ -18,9 +18,9 @@
     });
     const data = await response.json();
     console.log(data);
+
     if (data.token) {
       localStorage.setItem("token", data.token);
-      localStorage.setItem("broadcast_token", data.broadcast_token);
       localStorage.setItem("user_id", data.user.id);
       push("/contact");
     } else {
@@ -29,12 +29,12 @@
   };
 </script>
 
-<div class="presentation_page-contact">
-  <img class="logo2" src="./src/assets/logo.png" alt="Logo de l'entreprise" />
+<div class="presentation_page_login">
+  <img class="logo3" src="./src/assets/logo.png" alt="Logo de l'entreprise" />
   <form
     on:submit|preventDefault={loginUser}
     aria-label="register-form"
-    class="form_contact"
+    class="form_contact_login"
   >
     <div class="p_infos_login">
       <label for="username">Adresse Email</label>

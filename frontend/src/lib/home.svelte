@@ -16,6 +16,15 @@
 </script>
 
 <h1 class="title_home">Refuge pour Chiens et Chats</h1>
+<div class="presentation">
+  <span>O’refuge</span> est une Association loi 1901 ayant pour mission le
+  sauvetage et l’adoption d’animaux de chiens et de chats.<br /><br />
+
+  Fondé en 2023, notre refuge est basé en Ille et Vilaine, en Bretagne, et
+  comprend 4 bénévoles et de nombreuses familles d’accueil.<br /><br />
+  Nous avons décidé, en créant ce refuge pour chiens et chats, de consacrer notre
+  énergie à la protection des chiens et chats.
+</div>
 
 <h2 class="title2_home">Je souhaite adopter un</h2>
 <div class="container_home">
@@ -40,13 +49,4 @@
       />
     </a>
   </div>
-</div>
-<div class="presentation">
-  <span>O’refuge</span> est une Association loi 1901 ayant pour mission le
-  sauvetage et l’adoption d’animaux de chiens et de chats.<br /><br />
-
-  Fondé en 2023, notre refuge est basé en Ille et Vilaine, en Bretagne, et
-  comprend 4 bénévoles et de nombreuses familles d’accueil.<br /><br />
-  Nous avons décidé, en créant ce refuge pour chiens et chats, de consacrer notre
-  énergie à la protection des chiens et chats.
 </div>

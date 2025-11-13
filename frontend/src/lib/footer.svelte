@@ -75,28 +75,33 @@
       <strong> Email : </strong>
       <br />orefuge@gmail.com
     </p>
-    <ul>
-      <li class="link">
-        <a
-          aria-label="Mentions légales"
-          href="/mentions"
-          use:link
-          onclick={topFunction}><strong>Mentions légales</strong></a
-        >
-      </li>
-      <br />
-
-      <li class="link">
-        <a
-          aria-label="Qui sommes nous"
-          href="/presentation"
-          use:link
-          onclick={topFunction}
-        >
-          <strong>Qui sommes-nous</strong></a
-        >
-      </li>
-    </ul>
+    <div class="ul">
+      <ul>
+        <li class="navbar-link">
+          <a
+            aria-label="Mentions légales"
+            href="/mentions"
+            use:link
+            onclick={topFunction}><strong>Mentions légales</strong></a
+          >
+        </li>
+        <li class="navbar-link">
+          <a aria-label="page conditions" href="/conditions" use:link
+            >Conditions d'adoption</a
+          >
+        </li>
+        <li class="navbar-link">
+          <a
+            aria-label="Qui sommes nous"
+            href="/presentation"
+            use:link
+            onclick={topFunction}
+          >
+            <strong>Qui sommes-nous</strong></a
+          >
+        </li>
+      </ul>
+    </div>
   </div>
 
   <div class="cta">

@@ -9,9 +9,11 @@
       <a aria-label="page d'accueil" href="/" use:link>Accueil</a>
     </li>
     <li class="menu_navbar-link">
-      <a aria-label="page conditions" href="/conditions" use:link
-        >Conditions d'adoption</a
+      <a aria-label="page des chiens" href="/chiens" use:link>Voir nos chiens</a
       >
+    </li>
+    <li class="menu_navbar-link">
+      <a aria-label="page des chats" href="/chats" use:link>Voir nos chats</a>
     </li>
     <li class="menu_navbar-link">
       <a aria-label="page contact" href="/contact" use:link>Contact</a>
@@ -20,11 +22,6 @@
     <li class="menu_navbar-link">
       <a aria-label="page animaux adoptés" href="/adoptes" use:link
         >Nos adoptés</a
-      >
-    </li>
-    <li class="menu_navbar-link">
-      <a aria-label="page animaux adoptés" href="/register" use:link
-        >S'enregister</a
       >
     </li>
   </div>

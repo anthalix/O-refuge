@@ -97,7 +97,7 @@
               <a href="/ficheAnimal/{animal.id}" title={animal.name} use:link>
                 <!-- svelte-ignore a11y-img-redundant-alt -->
                 <img
-                  class="trombinoscope_profil-dog"
+                  class="trombinoscope_profil"
                   src={animal.thumbnail}
                   alt="image chats à adopter"
                 />
@@ -110,7 +110,7 @@
               <a href="/ficheAnimal/{animal.id}" title={animal.name} use:link>
                 <!-- svelte-ignore a11y-img-redundant-alt -->
                 <img
-                  class="trombinoscope_profil-dog"
+                  class="trombinoscope_profil"
                   src={animal.thumbnail}
                   alt="image chats à adopter"
                 />
@@ -122,7 +122,7 @@
               <a href="/ficheAnimal/{animal.id}" title={animal.name} use:link>
                 <!-- svelte-ignore a11y-img-redundant-alt -->
                 <img
-                  class="trombinoscope_profil-dog"
+                  class="trombinoscope_profil"
                   src={animal.thumbnail}
                   alt="image chats à adopter"
                 />

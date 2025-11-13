@@ -1,49 +1,73 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import { API_URL } from "./api";
-
   import { echo } from "./echo.js";
 
   let messages: { content: string; from: string; from_admin?: boolean }[] = [];
   let user: { id?: number; username?: string; email?: string } = {};
-
-  // Déclare à TypeScript que window.Pusher existe
-
   let message = "";
 
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("user_id");
 
-  onMount(async () => {
-    if (!token || !userId) {
-      window.location.href = "/#/login";
-      return;
-    }
+  // Variable pour stocker la référence du channel
+  let channel;
 
-    const res = await fetch(`${API_URL}/frontuser/${userId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await res.json();
-    if (data.success) {
+  onMount(async () => {
+    if (token || userId) {
+      // Récupérer les infos utilisateur
+      const res = await fetch(`${API_URL}/frontuser/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
       if (data.success) {
         user = data.data;
       }
-    }
 
-    const msgRes = await fetch(`${API_URL}/messages/${userId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const msgData = await msgRes.json();
-    if (msgData.success) {
-      messages = msgData.data.map((m) => ({
-        id: m.id,
-        content: m.content,
-        from: m.from_admin ? "admin" : m.users[0]?.username || "inconnu",
-      }));
+      // Récupérer l'historique des messages
+      const msgRes = await fetch(`${API_URL}/messages/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const msgData = await msgRes.json();
+      if (msgData.success) {
+        messages = msgData.data.map((m) => ({
+          id: m.id,
+          content: m.content,
+          from: m.from_admin ? "Admin" : m.users[0]?.username || "inconnu",
+          from_admin: m.from_admin || false,
+        }));
+      }
+
+      // ✅ Écouter les nouveaux messages en temps réel
+      channel = echo.channel("admin-channel");
+
+      channel.listen(".new.message", (e: any) => {
+        console.log("📩 Message reçu en temps réel :", e);
+
+        // Ajouter le message à la liste
+        messages = [
+          ...messages,
+          {
+            content: e.message.content,
+            from: e.message.from_admin ? "Admin" : e.user.username,
+            from_admin: e.message.from_admin,
+          },
+        ];
+      });
+    }
+  });
+
+  // ✅ Nettoyer quand le composant est détruit
+  onDestroy(() => {
+    if (channel) {
+      echo.leave("admin-channel");
+      console.log("🔌 Déconnecté du channel");
     }
   });
 
   async function sendMessage() {
+    if (!message.trim()) return;
+
     const res = await fetch(`${API_URL}/message`, {
       method: "POST",
       headers: {
@@ -56,33 +80,25 @@
     const data = await res.json();
 
     if (data.success) {
-      messages = [...messages, { content: message, from: user.username }];
+      // Le message sera ajouté via l'événement broadcast
       message = "";
     } else {
       alert("Erreur : " + data.message);
     }
   }
-  onMount(() => {
-    // Écoute les nouveaux messages envoyés par l’admin
-    echo.private(`user-${userId}`).listen(".new.message", (e: any) => {
-      console.log("📩 Message reçu :", e);
-      messages = [...messages, { content: e.message.content, from: "Admin" }];
-    });
-    echo.channel("admin-channel").listen(".nex.message", (e: any) => {
-      console.log("📩 Message reçu :", e);
-    });
-  });
 
-  $: {
-    const chatBox = document.querySelector(".chat-box");
-    if (chatBox) {
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
+  // Auto-scroll vers le bas quand il y a de nouveaux messages
+  $: if (messages.length > 0) {
+    setTimeout(() => {
+      const chatBox = document.querySelector(".chat-box");
+      if (chatBox) {
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    }, 100);
   }
-  console.log(echo);
 </script>
 
-<main>
+<main class="main_contact">
   <h1 class="title_home">contact</h1>
   {#if token}
     <div class="presentation_page-contact">
@@ -92,100 +108,58 @@
         alt="Logo de l'entreprise"
       />
 
-      <form
-        on:submit|preventDefault={sendMessage}
-        aria-label="form-contact"
-        class="form_contact"
-      >
-        <div class="p_infos">
-          <label for="lastname">Nom : </label>
-          <input type="text" bind:value={user.username} readonly />
-        </div>
-        <div class="p_infos">
-          <label for="email">Email : </label>
-          <input type="text" bind:value={user.email} readonly />
-        </div>
+      <div class="p_infos">
+        <label for="lastname">Nom : </label>
+        <input type="text" bind:value={user.username} readonly />
+      </div>
+      <div class="p_infos">
+        <label for="email">Email : </label>
+        <input type="text" bind:value={user.email} readonly />
+      </div>
+    </div>
+    <div class="chat">
+      <h3 style="color: white; margin-bottom: 10px;">💬 Messages</h3>
+      <div class="chat-box">
+        {#each messages as msg}
+          <div class="message {msg.from_admin ? 'admin-msg' : 'user-msg'}">
+            <div class="strong"><strong>{msg.from} :</strong></div>
 
-        <h3>Ma demande :</h3>
-        <div class="p_text">
-          <textarea
-            aria-label="demande"
-            name="message"
-            cols="63"
-            rows="10"
-            bind:value={message}
-          ></textarea>
-        </div>
+            <div class="span"><span>{msg.content}</span></div>
+          </div>
+        {/each}
+        {#if messages.length === 0}
+          <p style="color: #ccc; text-align: center;">
+            Aucun message pour le moment
+          </p>
+        {/if}
+      </div>
+    </div>
 
+    <form
+      on:submit|preventDefault={sendMessage}
+      aria-label="form-contact"
+      class="form_contact"
+    >
+      <div class="p_text">
+        <textarea
+          aria-label="demande"
+          name="message"
+          cols="47"
+          rows="3"
+          bind:value={message}
+          placeholder="Écrivez votre message..."
+        ></textarea>
         <div>
           <input class="send_button" type="submit" value="Envoyer" />
         </div>
-      </form>
-    </div>
-    <div class="chat-box">
-      {#each messages as msg}
-        <div id="message" class={msg.from_admin ? "admin-msg" : "user-msg"}>
-          <strong>{msg.from} :</strong>
-          {msg.content}
-        </div>
-      {/each}
-    </div>
+      </div>
+    </form>
   {:else}
     <div id="lien">
       <h2>⚠️ Vous devez être connecté pour accéder à cette page</h2>
       <a class="lien" href="#/login">Se connecter </a>
-      <span> ou </span>
-      <a class="lien" href="#/register"> S’inscrire</a>
+      <span> OU </span>
+      <a class="lien" href="#/register"> S'inscrire</a>
     </div>
   {/if}
 </main>
-
-<style>
-  .p_infos {
-    display: flex;
-    flex-direction: column;
-  }
-  .lien {
-    text-decoration: none;
-    font-family: "bebas+neue";
-    font-size: 1.7rem;
-    color: #e8f0fa;
-    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
-  }
-  #lien {
-    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
-    text-align: left;
-    background-color: rgba(0, 0, 0, 0.5);
-    text-align: center;
-    margin-bottom: 50px;
-  }
-  .p_text {
-    margin-bottom: 20px;
-  }
-  main {
-    position: relative;
-  }
-  .chat-box {
-    position: absolute;
-    right: 10%;
-    top: 15%;
-    width: 30%;
-    max-height: 400px;
-    overflow-y: auto;
-    background: rgba(6, 6, 6, 0.527);
-
-    border-radius: 8px;
-    padding: 10px;
-    margin-top: 20px;
-  }
-
-  #message {
-    display: flex;
-    justify-content: space-between;
-    background: white;
-    border: 1px solid #ddd;
-    padding: 8px;
-    border-radius: 6px;
-    margin-bottom: 6px;
-  }
-</style>

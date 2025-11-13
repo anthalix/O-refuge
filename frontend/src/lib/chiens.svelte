@@ -29,8 +29,6 @@
 
 <div class="dog">
   <div class="critere">
-    <h2 class="title-critere">Trier par :</h2>
-
     <div class="critere-form">
       <form class="form">
         <select
@@ -92,16 +90,30 @@
       {#each dogs as animal}
         {#if selectedSexe !== "Sexe" || selectedTaille !== "Taille" || selectedAge !== "Age" || selectedRace !== "Race"}
           {#if (selectedSexe === "Sexe" || animal.sex === selectedSexe) && (selectedTaille === "Taille" || animal.taille === selectedTaille) && (selectedAge === "Age" || (selectedAge === "1" && animal.age <= 1) || (selectedAge === "2" && animal.age >= 2 && animal.age <= 5) || (selectedAge === "3" && animal.age >= 6)) && (selectedRace === "Race" || animal.breed_name === selectedRace)}
-            <div class="polaroid-images">
-              <a href="/ficheAnimal/{animal.id}" title={animal.name} use:link>
-                <!-- svelte-ignore a11y-img-redundant-alt -->
-                <img
-                  class="trombinoscope_profil-dog"
-                  src={animal.thumbnail}
-                  alt="image chiens à adopter"
-                />
-              </a>
-            </div>
+            {#if animal.status === "urgent"}
+              <div class="polaroid-images">
+                <a href="/ficheAnimal/{animal.id}" title={animal.name} use:link>
+                  <!-- svelte-ignore a11y-img-redundant-alt -->
+                  <img
+                    class="trombinoscope_profil"
+                    src={animal.thumbnail}
+                    alt="image chiens à adopter"
+                  />
+                </a>
+                <div class="figcaption">SOS Urgent</div>
+              </div>
+            {:else}
+              <div class="polaroid-images">
+                <a href="/ficheAnimal/{animal.id}" title={animal.name} use:link>
+                  <!-- svelte-ignore a11y-img-redundant-alt -->
+                  <img
+                    class="trombinoscope_profil"
+                    src={animal.thumbnail}
+                    alt="image chiens à adopter"
+                  />
+                </a>
+              </div>
+            {/if}
           {/if}
         {:else if selectedSexe === "Sexe" && selectedTaille === "Taille" && selectedAge === "Age" && selectedRace === "Race"}
           {#if animal.status === "urgent"}
@@ -109,7 +121,7 @@
               <a href="/ficheAnimal/{animal.id}" title={animal.name} use:link>
                 <!-- svelte-ignore a11y-img-redundant-alt -->
                 <img
-                  class="trombinoscope_profil-dog"
+                  class="trombinoscope_profil"
                   src={animal.thumbnail}
                   alt="image chiens à adopter"
                 />
@@ -121,7 +133,7 @@
               <a href="/ficheAnimal/{animal.id}" title={animal.name} use:link>
                 <!-- svelte-ignore a11y-img-redundant-alt -->
                 <img
-                  class="trombinoscope_profil-dog"
+                  class="trombinoscope_profil"
                   src={animal.thumbnail}
                   alt="image chiens à adopter"
                 />

@@ -52,14 +52,14 @@
   };
 </script>
 
-<h1 class="title_home">S'enregistrer</h1>
+<h1 class="title_home">S'incrire</h1>
 
-<div class="presentation_page-contact">
-  <img class="logo2" src="./src/assets/logo.png" alt="Logo de l'entreprise" />
+<div class="presentation_page-register">
+  <img class="logo3" src="./src/assets/logo.png" alt="Logo de l'entreprise" />
   <form
     on:submit|preventDefault={registerUser}
     aria-label="register-form"
-    class="form_contact"
+    class="form_contact_register"
   >
     <div class="p_infos">
       <label for="username">Nom d’utilisateur</label>
