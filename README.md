@@ -22,7 +22,7 @@ O-refuge est une application web pour l’adoption d’animaux. Les utilisateurs
 
 ---
 
-## Fonctionnalités
+
 
 ## Fonctionnalités
 
