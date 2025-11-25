@@ -33,6 +33,25 @@ O-refuge est une application web pour l’adoption d’animaux. Les utilisateurs
 - Gestion des rôles utilisateurs/admins
 
 ---
+## Screenshots
+
+- Page d’accueil :  
+![Accueil](screenshots/accueil.png)
+
+- Page sélection :  
+![Selection](screenshots/chiens.png)
+
+- Fiche animal :  
+![Fiche](screenshots/single.png)
+
+- Messagerie :  
+![Chat](screenshots/tchat.png)
+
+- Backoffice admin :  
+![Admin](screenshots/admin.png)
+
+- Messagerie admin :  
+![Messagerie admin](screenshots/tchat-admin.png)
 
 ## Installation et Configuration
 
@@ -90,25 +109,7 @@ npm run dev
 
 Screenshots
 
-## Screenshots
 
-- Page d’accueil :  
-![Accueil](screenshots/accueil.png)
-
-- Page sélection :  
-![Selection](screenshots/chiens.png)
-
-- Fiche animal :  
-![Fiche](screenshots/single.png)
-
-- Messagerie :  
-![Chat](screenshots/tchat.png)
-
-- Backoffice admin :  
-![Admin](screenshots/admin.png)
-
-- Messagerie admin :  
-![Messagerie admin](screenshots/tchat-admin.png)
 
 
 
