@@ -24,13 +24,15 @@ O-refuge est une application web pour l’adoption d’animaux. Les utilisateurs
 
 ## Fonctionnalités
 
-- Inscription et connexion des utilisateurs (JWT)
+## Fonctionnalités
+
+- Inscription et connexion (JWT) avec **vérification de l’adresse email**
 - Consultation et filtrage des animaux
 - Fiches détaillées des animaux
-- Formulaire de contact pré-rempli après connexion
-- Messagerie en temps réel avec notifications
-- Backoffice CRUD pour les administrateurs
-- Gestion des rôles utilisateurs/admins
+- Formulaire de contact pré-rempli
+- Messagerie en temps réel
+- Backoffice CRUD pour les admins
+
 
 ---
 ## Screenshots
