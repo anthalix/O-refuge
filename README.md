@@ -90,15 +90,26 @@ npm run dev
 
 Screenshots
 
-(Remplace ces liens par tes captures réelles)
+## Screenshots
 
-    Page d’accueil :
+- Page d’accueil :  
+![Accueil](screenshots/accueil.png)
 
-    Fiche animal :
+- Page selection :
+![selection](screenshots/chiens.png)
 
-    Backoffice admin :
+- Fiche animal :  
+![Fiche](screenshots/single.png)
 
-    Messagerie :
+- Messagerie :  
+![Chat](screenshots/tchat.png)
+
+- Backoffice admin :  
+![Admin](screenshots/admin.png)
+
+- Messagerie admin :
+![chat] (screenshots/tchat-admin.png)
+
 
 Contribuer
 
