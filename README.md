@@ -1,5 +1,6 @@
 # O-refuge
 
+
 [![Laravel](https://img.shields.io/badge/Laravel-10-red?logo=laravel)](https://laravel.com/)
 [![PHP](https://img.shields.io/badge/PHP-8.2-blue?logo=php)](https://www.php.net/)
 [![Svelte](https://img.shields.io/badge/Svelte-3.59-orange?logo=svelte)](https://svelte.dev/)
@@ -15,26 +16,31 @@ O-refuge est une application web pour l’adoption d’animaux. Les utilisateurs
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    subgraph Frontend
-        A[Svelte] -->|Appelle API REST| B(Laravel Backend)
-    end
+![Architecture](screenshots/architecture.png)
 
-    subgraph Backend
-        B --> C[MySQL Database]
-        B --> D[Pusher / Laravel Echo]
-    end
+*(Le diagramme montre le flux entre Frontend Svelte, Backend Laravel, MySQL et Pusher/Echo.)*
 
-    subgraph Utilisateurs
-        U[Utilisateur] -->|Navigue & Envoie messages| A
-    end
+---
 
-    subgraph Administrateurs
-        Admin[Admin] -->|Gère animaux & messages| B
-    end
+## Fonctionnalités
 
-    D -->|Push notifications| A
+- Inscription et connexion des utilisateurs (JWT)
+- Consultation et filtrage des animaux
+- Fiches détaillées des animaux
+- Formulaire de contact pré-rempli après connexion
+- Messagerie en temps réel avec notifications
+- Backoffice CRUD pour les administrateurs
+- Gestion des rôles utilisateurs/admins
+
+---
+
+## Installation et Configuration
+
+1. **Cloner le dépôt**
+```bash
+git clone https://github.com/anthalix/O-refuge.git
+cd O-refuge
+
 Installation et Configuration
 
 Cloner le dépôt
