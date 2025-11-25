@@ -16,7 +16,7 @@ O-refuge est une application web pour l’adoption d’animaux. Les utilisateurs
 
 ## Architecture
 
-![Architecture](screenshots/architecture.png)
+![Architecture](screenshots/diagram.png)
 
 *(Le diagramme montre le flux entre Frontend Svelte, Backend Laravel, MySQL et Pusher/Echo.)*
 
