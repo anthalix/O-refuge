@@ -96,7 +96,7 @@ Screenshots
 ![Accueil](screenshots/accueil.png)
 
 - Page selection :
-![selection](screenshots/chiens.png)
+![Selection](screenshots/chiens.png)
 
 - Fiche animal :  
 ![Fiche](screenshots/single.png)
@@ -108,7 +108,7 @@ Screenshots
 ![Admin](screenshots/admin.png)
 
 - Messagerie admin :
-![chat] (screenshots/tchat-admin.png)
+![tchat] (screenshots/tchat-admin.png)
 
 
 Contribuer
